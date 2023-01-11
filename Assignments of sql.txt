@@ -1,0 +1,302 @@
+ASSIGNMENT 1
+
+Create Table Customer(
+ID int not null,
+First_Name nvarchar(40) not null,
+Last_Name nvarchar(40),
+City nvarchar(40),
+Country nvarchar(40),
+Phone nvarchar(20)
+);
+
+insert into Customer(ID,First_Name,Last_Name,City,Country,Phone)VALUES ('1','Vijin','V','Gorgea','London',9876543256);
+insert into Customer(ID,First_Name,Last_Name,City,Country,Phone)VALUES ('2','Sagin','M','Mumbai','India',1234567890);
+insert into Customer(ID,First_Name,Last_Name,City,Country,Phone)VALUES ('3','Libin','C','Caiberia','France',9384349947);
+select * from customer;
+
+ ALTER TABLE Customer
+ ADD City nvarchar(40),Country nvarchar(40),Phone nvarchar(20);
+
+ UPDATE Customer 
+ set City='Gorgea' where First_Name='Vijin';='Course';
+ Alter Table Customer 
+ DROP COLUMN Course;
+
+ CREATE INDEX IndexCustomerName
+ On Customer(First_Name,Last_Name);
+ 
+ Create Table Order1
+ (
+ ID int not null,
+ OrderDate datetime,
+ OrderNumber nvarchar(10),
+ CustomerID int not null,
+ TotalAmount decimal(12,2)
+ );
+insert into Order1(ID,OrderDate,OrderNumber,CustomerID,TotalAmount)VALUES (1,2023-12-10,688,001,10.2);
+insert into Order1(ID,OrderDate,OrderNumber,CustomerID,TotalAmount)VALUES (2,2023-12-12,689,002,11.2);
+insert into Order1(ID,OrderDate,OrderNumber,CustomerID,TotalAmount)VALUES (3,2023-12-09,686,003,9.2);
+select * from Order1; 
+
+Create index IndexOrderCustomerID
+on Order1(CustomerID);
+
+Create index IndexOrderDate
+on Order1(OrderDate); 
+
+Alter Table Customer
+Add Primary key(ID);
+
+Alter Table Order1
+Add Foreign key(ID) REFERENCES Customer(ID);
+
+Create Table OrderItem
+(
+ ID int not null,
+ OrderID int,
+ ProductID int,
+ UnitPrice decimal(12,2),
+ Quantity int
+ );
+insert into OrderItem(ID,OrderID,ProductID,UnitPrice,Quantity)VALUES (5,1,628,10.6,118);
+insert into OrderItem(ID,OrderID,ProductID,UnitPrice,Quantity)VALUES (7,2,638,11.5,108);
+insert into OrderItem(ID,OrderID,ProductID,UnitPrice,Quantity)VALUES (6,3,648,11.7,128);
+select * from OrderItem; 
+
+
+drop table Order1;
+
+alter table OrderItem
+Add foreign Key(OrderID) references Order1(ID);
+
+alter table Order1
+Add Primary key(ID);
+
+select * from OrderItem;
+
+Create Table Product
+(
+ ID int not null,
+ ProductName nvarchar(50),
+ UnitPrice decimal(12,2),
+ Package nvarchar(30),
+ isDiscontinued bit,
+ );
+
+insert into Product VALUES (5,'Potato',62,300,1);
+insert into Product VALUES (7,'Tomato',68,310,1);
+insert into Product VALUES (6,'Brinjal',64,320,1);
+select * from Product; 
+
+
+alter table Product
+add primary key(ID);
+
+select * from Customer;
+Select * from Customer
+where Country LIKE ('__I%');
+
+Select * from Customer
+where Country LIKE ('I%');
+
+ASSIGNMENT 3
+
+create table customer
+(
+id int not null primary key,
+customername nvarchar(500),
+country nvarchar(500),
+orderid nvarchar(500),
+phone nvarchar(500)
+);
+
+insert into customer (id,customername,country,orderid,phone)values ('1','prathyusha','france','001','1234567890');
+insert into customer (id,customername,country,orderid,phone)values ('2','usha','iraq','002','1234567899');
+insert into customer (id,customername,country,orderid,phone)values ('3','prathiyusha','egypt','003','1234567898');
+sp_configure 'show advanced option', 0;
+go
+reconfigure;
+go
+drop table customer;
+select * from customer;
+create table Order18
+(
+id int not null primary key,
+productname nvarchar(500),
+empid nvarchar(500),
+);
+insert into order1 (id,productname,empid)values ('001','papaya','1001');
+insert into order1 (id,productname,empid)values ('002','chai','1002');
+insert into order1 (id,productname,empid)values ('003','seafood','1003');
+select * from order1;
+
+Alter Table customer
+Add Foreign key(id) REFERENCES order1(id);
+
+create table emp
+(
+empname nvarchar(500),
+id nvarchar(500)primary key,
+department nvarchar(500),
+rating decimal(38)
+);
+
+insert into emp(empname,id,department,rating)values ('suresh','1001','abc',4.5);
+insert into emp(empname,id,department,rating)values ('ramesh','1002','abcd',4.2);
+insert into emp(empname,id,department,rating)values ('rajesh','1003','abd',4.6);
+select * from emp;
+
+alter table emp
+Add foreign Key(id) references Order1(id);
+
+alter table order1
+Add customerid int;
+drop table emp;
+select * from customer,order1
+where order1.customerid=customer.id AND customer.phone='1234567890';
+
+update order1 set customerid=1 where  id=1;
+update order1 set customerid=2 where  id=2;
+update order1 set customerid=3 where  id=3;
+select * from customer,order1
+where order1.id=customer.orderid AND customer.phone='1234567890';
+
+select * from order1
+where productname='papaya';
+
+select * from customer
+where country!='london';
+
+select * from order1
+where productname='chai';
+
+
+select * from emp;
+
+
+ASSIGNMENT 4
+
+1.    Print the total price of orders which have the products supplied by exoctic liquids if the price is >50 and also 
+ print  it by shipping companys name
+
+select sum(price)
+from orders innerjoin orderitem inner join products
+on order.OID = orderitem )ID and orderitem.PID = product.PID
+where pname='exotic liquids';
+
+selet sum(price) as totalprice
+from order
+
+2.    Display the employee details whose joined at first
+
+select top(1)
+from employees
+order by joindate;
+
+3.	Display the employee details whose joined at recently
+
+select * from employees 
+order by JoinDate;
+
+4.	Write a query to get most expense and least expensive Product list (name and unit price).
+
+select Top(1) unitPrice.pname
+from product 
+orderby unitprice;
+
+
+5.      Display the lists of product that are out of stock
+
+
+select pname
+from product
+where stock = null;
+
+
+6.	Display the list of products whose unitinstock is less than unitonorder
+
+
+select * from order
+where unistock <unitonorder;
+
+
+7.	Display list of categories and suppliers who supply products within those categories
+
+
+
+select categories,supplier
+from products
+group by categories;
+
+
+8.	Display complete list of customers, the OrderID and date of any orders they have made
+
+
+selecy * OID,orderDate
+from  orders inner join ccustomer
+on order.id=customer.id;
+
+9.	Write  query that determines the customer who has placed the maximum number of orders
+
+
+select id,name,max(ordernumber)
+from orders innerjoin customer
+on order.id =customer.id;
+
+10.	Display the customerid whose name has substring ‘RA’
+
+select id from customer
+where substring(name,len(name),2)='RA';
+
+11.	Display the first word of all the company name.
+
+select name from emp
+where substring(name,len(name),2);
+
+
+ASSSIGNMENT 2
+
+create table customer(
+id int not null,
+name varchar(20),
+faxnumber varchar(20),
+country varchar(20),
+);
+
+insert into customer (id,name,faxnumber,country)values(1,'jonny','10023','germany');
+insert into customer (id,name,faxnumber,country)values(1,'jonne','10022','europe');
+insert into customer (id,name,faxnumber,country)values(1,'jonn','10021','france');
+
+select * from customer where country='france';
+
+select * from customer
+where name LIKE '__R%';
+
+alter table customer
+add age int;
+
+update customer
+set age=25 where name='john';
+
+select name from customer
+where age between 20 and 23,
+
+
+create table employee(
+id int not null,
+name varchar(20),
+rating varchar(20),
+dept varchar(20),
+jdate datetime
+);
+
+insert into employee (id,name,rating,dept,jdate)values(1,'A',9,'mech'2022-12-29);
+insert into employee (id,name,rating,dept,jdate)values(2,'A',5,'mechatronics'2022-12-28);
+insert into employee (id,name,rating,dept,jdate)values(3,'A',4,'tech'2022-12-27);
+
+select * employee;
+
+alter table emplopyee add manager nvarchar(50);
+update employee set manager='steve' whereid=1;
+update employee set manager='stony' whereid=2;
+update employee set manager='william' whereid=3;
